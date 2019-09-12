@@ -108,6 +108,6 @@ for i, filename1 in enumerate(results_dict.keys()):
 		print (cosines[i][j])
 
 filenames = list(results_dict.keys()) 
-print ("\t\t", filenames[0], "\t\t", filenames[1], "\t\t", filenames[2], "\t\t", filenames[3], "\t\t", filenames[4], "\t\t", filenames[5], "\t\t", filenames[6], "\t\t", filenames[7], "\t\t", filenames[8])
+print ("\t\t", filenames[0], "\t", filenames[1], "\t", filenames[2], "\t", filenames[3], "\t", filenames[4], "\t", filenames[5], "\t", filenames[6], "\t", filenames[7], "\t", filenames[8])
 for i, row in enumerate(cosines):
-	print (list(results_dict.keys())[i],"\t" , row[0],"\t" , row[1],"\t" , row[2],"\t" , row[3],"\t" , row[4],"\t" , row[5],"\t" , row[6],"\t" , row[7],"\t" , row[8])
+	print (list(results_dict.keys())[i],"\t" , "{:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f}".format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])) 
