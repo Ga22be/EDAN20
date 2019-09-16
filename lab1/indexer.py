@@ -27,9 +27,10 @@ for file in f:
 	results_dict.update({file:{}})
 	word_counts.update({file:0})
 
-print (results_dict)
-print (word_counts)
+#print (results_dict)
+#print (word_counts)
 
+print ("Reading files...")
 
 master_index = {}
 for filename in f:
@@ -51,6 +52,9 @@ for filename in f:
 			master_index[word] = {filename:index[word]}
 		else:
 			master_index[word].update({filename:index[word]})
+
+print ("-"*5)
+print ()
 
 for word in master_index.keys():
 #	print (word, master_index[word])
@@ -91,7 +95,7 @@ for i, filename1 in enumerate(results_dict.keys()):
 	for j, filename2 in enumerate(results_dict.keys()):
 		if filename1 == filename2:
 			continue
-		print(i, filename1, j, filename2)
+#		print(i, filename1, j, filename2)
 		q = list(results_dict[filename1].values())
 		d = list(results_dict[filename2].values())
 		q2 = 0
@@ -105,9 +109,26 @@ for i, filename1 in enumerate(results_dict.keys()):
 		for k, _ in enumerate(q):
 			cosines[i][j] += q[k] * d[k]
 		cosines[i][j] = cosines[i][j]/(q2*d2)
-		print (cosines[i][j])
+#		print (cosines[i][j])
+
+print ("="*160)
 
 filenames = list(results_dict.keys()) 
 print ("\t\t", filenames[0], "\t", filenames[1], "\t", filenames[2], "\t", filenames[3], "\t", filenames[4], "\t", filenames[5], "\t", filenames[6], "\t", filenames[7], "\t", filenames[8])
 for i, row in enumerate(cosines):
-	print (list(results_dict.keys())[i],"\t" , "{:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f}".format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])) 
+	print (list(results_dict.keys())[i],"\t" , "{:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f} \t {:.5f}".format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
+
+max = -1
+index = (-1,-1)
+for i, row in enumerate(cosines):
+	for j, cell in enumerate(row):
+		if cell > max:
+			max = cell
+			index = (i,j)
+
+print("="*5)
+print()
+
+files = list(results_dict.keys())
+print ("Highest cosine similarity:\t{:.5f}".format(max))
+print ("Corresponding documents:\t%s <-> %s" % (files[index[0]], files[index[1]]))
