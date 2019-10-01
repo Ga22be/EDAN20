@@ -56,8 +56,8 @@ def train(corpus):
     pos_chunk[pos] = most frequent chunk for pos
     """
     for pos in chunk_dist:
-      obj = chunk_dist[pos]
-      largest = max(obj, key=lambda k: obj[k])
+      chunk = chunk_dist[pos]
+      largest = max(chunk, key=lambda k: chunk[k])
       pos_chunk[pos] = largest
 
     return pos_chunk
