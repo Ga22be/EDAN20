@@ -21,7 +21,7 @@ pattern = re.sub(' ', '\\s+', pattern)
 text = re.sub('\s+', ' ', text)
 concordance = ('(.{{0,{width}}}{pattern}.{{0,{width}}})'
                .format(pattern=pattern, width=width))
-print (concordance)
+# print (concordance)
 for match in re.finditer(concordance, text):
     print(match.group(1))
 # print the string with 0..width characters on either side
