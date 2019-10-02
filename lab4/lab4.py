@@ -12,7 +12,9 @@ def get_pairs(corpus):
 	pairs = {}
 	for sentence in corpus:
 #		print(sentence)
-		for idx, word in enumerate(sentence):
+		for word in sentence:
+			if "-" in word['id']:
+				continue
 #			print (idx, word)
 			if word['deprel'] == SUB:
 				verb_key = int(word['head'])
@@ -41,9 +43,14 @@ def get_triples(corpus):
 	triples = {}
 	for sentence in corpus:
 		for word in sentence:
+			if "-" in word['id']:
+				continue
+				break
 			if word['deprel'] == SUB:
 				verb_key = word['head']
 				for word2 in sentence:
+					if "-" in word2['id']:
+						continue
 					if word2['deprel'] == OBJ and word2['head'] == verb_key:
 						counter += 1
 						subject = word['form'].lower()
@@ -57,7 +64,7 @@ def get_triples(corpus):
 	triples_sorted = sorted(triples.items(), key=operator.itemgetter(1), reverse=True)
 	
 	print("# of pairs:", counter)
-	print("Morst frequent pairs:")
+	print("Morst frequent triples:")
 	for i, triple in enumerate(triples_sorted):
 		if i >= 5:
 			break
@@ -70,7 +77,24 @@ if __name__ == '__main__':
 	train_corpus = conll.split_rows(train_corpus, column_names)
 	
 	print(train_file, len(train_corpus))
-	
 	get_pairs(train_corpus)	
 	get_triples(train_corpus)
 
+
+
+	column_names = ['id', 'form', 'lemma', 'upostag', 'xpostag', 'feats', 'head', 'deprel', 'deps', 'misc']
+	SUB = 'nsubj'
+	OBJ = 'obj'
+
+	files = conll.get_files("/usr/local/cs/EDAN20/ud-treebanks-v2.4/", "train.conllu")
+	for file in files:
+		train_corpus = conll.read_sentences(file)
+		train_corpus = conll.split_rows(train_corpus, column_names)
+		print(file, len(train_corpus))
+		get_pairs(train_corpus)
+		get_triples(train_corpus)
+#		for sentence in train_corpus:
+#			for idx, word in enumerate(sentence):
+#				if idx >= 5:
+#					break
+#				print(idx, word)
