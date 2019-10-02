@@ -36,8 +36,33 @@ def get_pairs(corpus):
 
 
 def get_triples(corpus):
-	print("asd")	
-
+	counter = 0
+	
+	triples = {}
+	for sentence in corpus:
+		for word in sentence:
+			if word['deprel'] == SUB:
+				verb_key = word['head']
+				for word2 in sentence:
+					if word2['deprel'] == OBJ and word2['head'] == verb_key:
+						counter += 1
+						subject = word['form'].lower()
+						verb = sentence[int(verb_key)]['form'].lower()
+						obj = word2['form'].lower()
+						triple = (subject, verb, obj)
+						if triple in triples:
+							triples[triple] += 1
+						else:
+							triples[triple] = 1
+	triples_sorted = sorted(triples.items(), key=operator.itemgetter(1), reverse=True)
+	
+	print("# of pairs:", counter)
+	print("Morst frequent pairs:")
+	for i, triple in enumerate(triples_sorted):
+		if i >= 5:
+			break
+		print(triple[1], triple[0])
+						
 if __name__ == '__main__':
 	column_names = ['id', 'form', 'lemma', 'cpostag', 'postag', 'feats', 'head', 'deprel', 'phead', 'pdeprel']
 	train_file = "./corpus/swedish_talbanken05_train.conll"
@@ -47,10 +72,5 @@ if __name__ == '__main__':
 	print(train_file, len(train_corpus))
 	
 	get_pairs(train_corpus)	
-	exit(0)	
+	get_triples(train_corpus)
 
-	for row in train_corpus:
-		print(row)
-		exit(0)
-
-	
