@@ -90,8 +90,6 @@ def predict(test_sentences, feature_names, f_out):
         X_test = vec.transform(X_test_dict)
         # Predicts the chunks and returns numbers
         y_test_predicted = classifier.predict(X_test)
-        print(y_test_predicted)
-        exit(0)
         # Appends the predicted chunks as a last column and saves the rows
         rows = test_sentence.splitlines()
         rows = [rows[i] + ' ' + y_test_predicted[i] for i in range(len(rows))]
@@ -125,6 +123,9 @@ if __name__ == '__main__':
     training_start_time = time.clock()
     print("Training the model...")
     classifier = linear_model.LogisticRegression(penalty='l2', dual=True, solver='liblinear')
+#    classifier = linear_model.LogisticRegression(penalty='l2', dual=False, solver='lbfgs', multi_class='auto')
+#    classifier = tree.DecisionTreeClassifier()
+#    classifier = linear_model.Perceptron() 
     model = classifier.fit(X, y)
     print(model)
 
