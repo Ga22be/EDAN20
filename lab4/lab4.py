@@ -45,7 +45,6 @@ def get_triples(corpus):
 		for word in sentence:
 			if "-" in word['id']:
 				continue
-				break
 			if word['deprel'] == SUB:
 				verb_key = word['head']
 				for word2 in sentence:
