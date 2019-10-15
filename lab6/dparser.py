@@ -37,7 +37,7 @@ feature_names_10 = [
     'can-la'
 ]
 
-feature_names_16 = [
+feature_names_14 = [
     'stack_0_word',
     'stack_0_pos',
     'stack_1_word',
@@ -48,12 +48,13 @@ feature_names_16 = [
     'queue_1_pos',
     'after_stack_0_word',
     'after_stack_0_pos',
+    'before_stack_0_word',
+    'before_stack_0_pos',
     'can-re',
-    'can-la',
-    'can-ra'
+    'can-la'
 ]
 
-FEATURE_NAMES = feature_names_10
+FEATURE_NAMES = feature_names_14
 
 def reference(stack, queue, graph):
     """
@@ -143,13 +144,13 @@ def extract_all_features(formatted_corpus):
     return X_dict, y_symbols
 
 def parse_ml(stack, queue, graph, trans):
-    if stack and trans[:2] == 'ra':
+    if stack and trans[:2] == 'ra' and transition.can_rightarc(stack):
         stack, queue, graph = transition.right_arc(stack, queue, graph, trans[3:])
         return stack, queue, graph, 'ra'
-    if stack and trans[:2] == 'la':
+    if stack and trans[:2] == 'la' and transition.can_leftarc(stack, graph):
         stack, queue, graph = transition.left_arc(stack, queue, graph, trans[3:])
         return stack, queue, graph, 'la'
-    if stack and trans[:2] == 're':
+    if stack and trans[:2] == 're' and transition.can_reduce(stack, graph):
         stack, queue, graph = transition.reduce(stack, queue, graph)
         return stack, queue, graph, 're'
     stack, queue, graph = transition.shift(stack, queue, graph)
@@ -226,7 +227,7 @@ if __name__ == '__main__':
 
     # Beginning of lab6, reading test data
     sentences = conll.read_sentences(test_file)
-    formatted_corpus = conll.split_rows(sentences, column_names_2006)
+    formatted_corpus = conll.split_rows(sentences, column_names_2006_test)
 
     sentence_counter = 0
 
