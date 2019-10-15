@@ -179,6 +179,7 @@ if __name__ == '__main__':
 
     if MODEL == LOGISTIC_MODEL:
         classifier = linear_model.LogisticRegression(penalty='l2', dual=True, solver='liblinear', verbose=1)
+#        classifier = linear_model.LogisticRegression(penalty='l2', dual=False, solver='lbfgs', verbose=1, max_iter=5000)
     elif MODEL == PERCEPTRON_MODEL:
         classifier = linear_model.Perceptron(penalty='l2', verbose=True)
     elif MODEL == DECISION_MODEL:
@@ -275,6 +276,7 @@ if __name__ == '__main__':
             except KeyError:
                 word['deprel'] = '_'
                 word['pdeprel'] = '_'
+            x = True
 
     conll.save('results.txt', formatted_corpus, column_names_2006)
 
